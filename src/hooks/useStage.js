@@ -28,7 +28,7 @@ export const useStage = (player, resetPlayer) => {
     };
 
     setStage((prev) => updateStage(prev));
-  }, [player.collided, player.piece, player.pos.x, player.pos.y]);
+  }, [player]);
 
   return [stage, setStage];
 };

@@ -39,7 +39,7 @@ export const PIECES = {
       ['S', 'S', 0], 
       [0, 0, 0]
     ],
-    color: '80, 158, 160',
+    colour: '80, 158, 160',
   },
   T: {
     shape: [
@@ -47,7 +47,7 @@ export const PIECES = {
       ['T', 'T', 'T'], 
       [0, 'T', 0]
     ],
-    color: '90, 169, 81',
+    colour: '90, 169, 81',
   },
   Z: {
     shape: [
@@ -55,7 +55,7 @@ export const PIECES = {
       [0, 'Z', 'Z'], 
       [0, 0, 0]
     ],
-    color: '183, 51, 33',
+    colour: '183, 51, 33',
   },
 };
 

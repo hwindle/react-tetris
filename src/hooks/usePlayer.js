@@ -1,11 +1,11 @@
 import { useCallback, useState } from 'react';
 import { STAGE_WIDTH } from '../gameHelpers';
-import { randomPiece } from '../tetrisPieces';
+import { PIECES, randomPiece } from '../tetrisPieces';
 
 export const usePlayer = () => {
   const [player, setPlayer] = useState({
     pos: { x: 0, y: 0 },
-    piece: randomPiece().shape,
+    piece: PIECES[0].shape,
     collided: false,
   });
 
