@@ -23,12 +23,16 @@ export const useStage = (player, resetPlayer) => {
         });
       });
 
+      // check player collision with walls, other tetris pieces
+      if (player.collided) {
+        resetPlayer();
+      }
       // return newStage render
       return newStage;
     };
 
     setStage((prev) => updateStage(prev));
-  }, [player]);
+  }, [player, resetPlayer]);
 
   return [stage, setStage];
 };
