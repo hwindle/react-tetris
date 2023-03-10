@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { STAGE_WIDTH } from '../gameHelpers';
+import { checkCollision, STAGE_WIDTH } from '../gameHelpers';
 import { PIECES, randomPiece } from '../tetrisPieces';
 
 export const usePlayer = () => {
@@ -9,9 +9,48 @@ export const usePlayer = () => {
     collided: false,
   });
 
+  // rotate a piece
+  const rotate = (matrix, dir) => {
+    // make the rows become the columns
+    const rotatedPiece = matrix.map((_, index) =>
+      matrix.map((col) => col[index])
+    );
+    // shift  the letter values backwards (mirror image)
+    // rotating clockwise 
+    if (dir > 0) return rotatedPiece.map(row => row.reverse());
+    // rotating anti-clockwise
+    return rotatedPiece.reverse();
+  };
+
+  const playerRotate = (stage, dir) => {
+    // not mutating state - deep copy of player
+    const clonedPlayer  = JSON.parse(JSON.stringify(player));
+    clonedPlayer.piece = rotate(clonedPlayer.piece, dir);
+    // collision detection
+    const pos = clonedPlayer.pos.x;
+    let offset = 1;
+    while (checkCollision(clonedPlayer, stage, { x: 0, y: 0 })) {
+      // this checks for a collision left and right, so pieces
+      // don't get deformed
+      clonedPlayer.pos.x += offset;
+      // going left 1, right 1
+      offset = -(offset + (offset > 0 ? 1 : -1));
+      // checking whether the offset is bigger than the piece 1st row width.
+      if (offset > clonedPlayer.piece[0].length) {
+        rotate(clonedPlayer.piece, -dir);
+        // reset the row position
+        clonedPlayer.pos.x = pos;
+        // break while loop
+        return;
+      }
+    }
+
+    setPlayer(clonedPlayer);
+  };
+
   // update where the piece should be
   const updatePlayerPos = ({ x, y, collided }) => {
-    setPlayer(prev => ({
+    setPlayer((prev) => ({
       ...prev,
       pos: { x: (prev.pos.x += x), y: (prev.pos.y += y) },
       collided,
@@ -28,5 +67,5 @@ export const usePlayer = () => {
     });
   }, []);
 
-  return [player, updatePlayerPos, resetPlayer];
+  return [player, updatePlayerPos, resetPlayer, playerRotate];
 };
