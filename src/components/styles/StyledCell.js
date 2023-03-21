@@ -9,4 +9,6 @@ export const StyledCell = styled.div`
   border-top-color: rgba(${props => props.colour}, 1);
   border-right-color: rgba(${props => props.colour}, 1);
   border-left-color: rgba(${props => props.colour}, 0.3);
+  border-radius: 4px;
+  margin: 0;
 `;
